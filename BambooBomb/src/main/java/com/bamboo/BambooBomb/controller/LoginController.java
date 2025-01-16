@@ -67,4 +67,13 @@ public class LoginController {
         Map<String, String> response = tokenService.refreshAccessToken(refreshToken);
         return ResponseEntity.ok(response);
     }
+
+    // 토큰 삭제
+    @GetMapping("/login/removeToken")
+    public ResponseEntity<Map<String, String>> revokeAccessToken(
+        @RequestParam(value = "access_token") String accessToken
+    ) {
+        Map<String, String> response = tokenService.revokeAccessToken(accessToken);
+        return ResponseEntity.ok(response);
+    }
 }

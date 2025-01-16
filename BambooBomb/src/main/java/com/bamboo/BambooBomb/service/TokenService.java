@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class TokenService {
@@ -70,6 +73,46 @@ public class TokenService {
 
         ResponseEntity<String> response = requestToken(params);
         return parseTokenResponse(response.getBody());
+    }
+
+    // 토큰 삭제 (로그아웃)
+    public Map<String, String> revokeAccessToken(String accessToken) {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "delete");
+        params.add("client_id", clientId);
+        params.add("client_secret", clientSecret);
+        params.add("access_token", accessToken);
+        params.add("service_provider", "NAVER");
+
+        ResponseEntity<String> response = requestToken(params);
+
+        Map<String, String> responseMap = new HashMap<>();
+        // return parseTokenResponse(response.getBody());
+        if (response.getStatusCode() == HttpStatus.OK) {
+            // JSON 응답 파싱 (성공 여부 확인)
+            try {
+                ObjectMapper objectMapper = new ObjectMapper(); // Jackson 사용
+                Map<String, String> responseBody = objectMapper.readValue(response.getBody(), Map.class);
+
+                boolean isSuccess = "success".equals(responseBody.get("result"));
+                if (isSuccess) {
+                    responseMap.put("success", "true");
+                    responseMap.put("message", "Token revoked successfuly.");
+                    return responseMap;
+                } else {
+                    responseMap.put("success", "false");
+                    responseMap.put("message", "Failed to revoke token.");
+                    return responseMap;
+                }
+            } catch (Exception e) {
+                responseMap.put("success", "false");
+                responseMap.put("message", "Failed to revoke token.");
+                return responseMap;
+            }
+        }
+        responseMap.put("success", "false");
+        responseMap.put("message", "Failed to revoke token.");
+        return responseMap;
     }
 
     // 응답에서 토큰 정보를 파싱
