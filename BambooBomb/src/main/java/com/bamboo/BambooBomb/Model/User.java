@@ -1,4 +1,4 @@
-package com.bamboo.BambooBomb.doc;
+package com.bamboo.BambooBomb.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,11 +8,6 @@ public class User {
     @Id
     private String id;
     private String email;
-
-    public User(String id, String email) {
-        this.id = id;
-        this.email = email;
-    }
 
     // Getter and Setter
     public String getId() {

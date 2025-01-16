@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bamboo.BambooBomb.service.TokenService;
 
-
 @RestController
 public class LoginController {
     @Value("${CLIENT_ID}")
@@ -31,7 +30,7 @@ public class LoginController {
     public LoginController(TokenService tokenService) {
         this.tokenService = tokenService;
     }
-    
+
     // 네이버 로그인 후 바로 호출되는 주소
     @GetMapping("/login/callback")
     public ResponseEntity<Map<String, String>> loginSuccess(
@@ -64,7 +63,7 @@ public class LoginController {
     }
 
     // 토큰 갱신
-    @GetMapping("/login/refreshToken")
+    @GetMapping("/ogin/refreshToken")
     public ResponseEntity<Map<String, String>> refreshAccessToken(
         @RequestParam(value = "refresh_token") String refreshToken
     ) {
