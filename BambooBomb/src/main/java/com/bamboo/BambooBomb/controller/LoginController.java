@@ -31,7 +31,8 @@ public class LoginController {
     public LoginController(TokenService tokenService) {
         this.tokenService = tokenService;
     }
-
+    
+    // 네이버 로그인 후 바로 호출되는 주소
     @GetMapping("/login/callback")
     public ResponseEntity<Map<String, String>> loginSuccess(
         @RequestParam(value="state", required=false) String state, 
@@ -80,6 +81,7 @@ public class LoginController {
         return ResponseEntity.ok(response);
     }
 
+    // 프로필 정보 (이메일, id)
     @GetMapping("/login/getProfile")
     public Map<String, Object> getUserInfo(
         @RequestParam("access_token") String accessToken
