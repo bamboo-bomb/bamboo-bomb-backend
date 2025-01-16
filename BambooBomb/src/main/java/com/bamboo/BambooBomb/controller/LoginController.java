@@ -58,4 +58,13 @@ public class LoginController {
         return ResponseEntity.ok(response);
     }
 
+
+    // 토큰 갱신
+    @GetMapping("/login/refreshToken")
+    public ResponseEntity<Map<String, String>> refreshAccessToken(
+        @RequestParam(value = "refresh_token") String refreshToken
+    ) {
+        Map<String, String> response = tokenService.refreshAccessToken(refreshToken);
+        return ResponseEntity.ok(response);
+    }
 }

@@ -60,6 +60,18 @@ public class TokenService {
     }
 
 
+    // 토큰 갱신
+    public Map<String, String> refreshAccessToken(String refreshToken) {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "refresh_token");
+        params.add("client_id", clientId);
+        params.add("client_secret", clientSecret);
+        params.add("refresh_token", refreshToken);
+
+        ResponseEntity<String> response = requestToken(params);
+        return parseTokenResponse(response.getBody());
+    }
+
     // 응답에서 토큰 정보를 파싱
     private Map<String, String> parseTokenResponse(String responseBody) {
         Map<String, String> responseMap = new HashMap<>();
