@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SuperBambooBombApplication<BambooBomb>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bamboo.BambooBomb.SuperBambooBombApplication",
+            "projectName": "BambooBomb",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

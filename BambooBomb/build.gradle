@@ -24,15 +24,27 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.4.1'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
+
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // JSON.simple 의존성 추가
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+
 	 // Spring Boot OAuth2 Client 의존성
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:3.4.1'
+    // implementation 'org.springframework.security:spring-security-oauth2-jose:6.4.2'
+    implementation 'org.springframework.security:spring-security-oauth2-core:6.4.2'
+
+
 
     // Spring Security 의존성
     implementation 'org.springframework.boot:spring-boot-starter-security'
