@@ -1,8 +1,10 @@
 package com.bamboo.BambooBomb.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,23 +30,22 @@ public class LoginController {
     }
 
     @GetMapping("/login/callback")
-    public String loginSuccess(
+    public ResponseEntity<Map<String, String>> loginSuccess(
         @RequestParam(value="state", required=false) String state, 
         @RequestParam(value="code", required=false) String code, 
         @RequestParam(value="error", required=false) String error, 
         @RequestParam(value="error_description", required=false) String error_description
         ) {
+        Map<String, String> responseMap = new HashMap<>();
         if (error != null) {
-            return error_description;
-        }
-        if (state == null) {
-            return "state is null";
-        }
-        if (code == null) {
-            return "code is null";
+            responseMap.put("error", error);
+            responseMap.put("error_description", error_description);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
         }
 
-        return "Callback 성공! : " + state + code;
+        responseMap.put("state", state);
+        responseMap.put("code", code);
+        return ResponseEntity.ok(responseMap);
     }
     
     // 접근 토큰 발급 요청 url (GET / POST (json))
@@ -57,7 +58,6 @@ public class LoginController {
         Map<String, String> response = tokenService.getAccessToken(code, state);
         return ResponseEntity.ok(response);
     }
-
 
     // 토큰 갱신
     @GetMapping("/login/refreshToken")
