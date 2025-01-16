@@ -14,10 +14,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         System.out.println("securityFilterChain#####################");
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login", "/login/**").permitAll()  // 특정 경로 허용
-                .anyRequest().authenticated()  // 다른 요청은 인증 필요
-            )
+            // .authorizeHttpRequests(auth -> auth
+            //     .requestMatchers("/login", "/login/**", "/swagger-ui/**").permitAll()  // 특정 경로 허용
+            //     .anyRequest().authenticated()  // 다른 요청은 인증 필요
+            // )
             .oauth2Login(Customizer.withDefaults());
 
         return http.build();
