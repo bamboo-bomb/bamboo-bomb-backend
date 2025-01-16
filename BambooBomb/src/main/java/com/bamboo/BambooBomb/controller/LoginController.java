@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,5 +78,23 @@ public class LoginController {
     ) {
         Map<String, String> response = tokenService.revokeAccessToken(accessToken);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/login/getProfile")
+    public Map<String, Object> getUserInfo(
+        @RequestParam("access_token") String accessToken
+    ) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        String url = "https://openapi.naver.com/v1/nid/me";
+        ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println(response.getBody());
+        }
+        return response.getBody();
     }
 }
