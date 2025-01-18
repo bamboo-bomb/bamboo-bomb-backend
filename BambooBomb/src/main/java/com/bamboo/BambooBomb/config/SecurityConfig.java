@@ -13,7 +13,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         System.out.println("securityFilterChain#####################");
-        http
+        http.csrf().disable()
             // .authorizeHttpRequests(auth -> auth
             //     .requestMatchers("/auth", "auth/**", "/login", "/login/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // 특정 경로 허용
             //     .anyRequest().authenticated()  // 다른 요청은 인증 필요
