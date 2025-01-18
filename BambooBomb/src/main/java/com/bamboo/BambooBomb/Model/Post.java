@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,12 +34,20 @@ public class Post {
     private Map<String, ReactionType> userReactions = new HashMap<>();
 
     public Post(String title, String content, String userId) {
+        this.id = UUID.randomUUID().toString();
         this.title = title;
         this.content = content;
         this.timestamp = LocalDateTime.now();
-        this.id = userId;
+        this.authorId = userId;
+        initializeReactions();
     }
 
+    // 이모지 기본값 초기화
+    private void initializeReactions() {
+        for (ReactionType type : ReactionType.values()) {
+            reactions.put(type, 0);
+        }
+    }
 
     // Getters and Setters
     public String getId() {
