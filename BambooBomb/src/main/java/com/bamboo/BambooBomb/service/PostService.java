@@ -1,5 +1,8 @@
 package com.bamboo.BambooBomb.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bamboo.BambooBomb.model.Post;
@@ -18,8 +21,11 @@ public class PostService {
         return postRepository.save(newPost);
     }
 
-    // 포스트 조회
-    
+    // 포스트 조회(페이징 처리)
+    public Page<Post> getPosts(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepository.findAll(pageable);
+    }
 
     // 특정 포스트 조회(id)
     public Post findPostById(String id) {

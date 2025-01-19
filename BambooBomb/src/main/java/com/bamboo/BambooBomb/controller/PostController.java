@@ -1,12 +1,14 @@
 package com.bamboo.BambooBomb.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bamboo.BambooBomb.model.Post;
 import com.bamboo.BambooBomb.service.PostService;
 import com.bamboo.BambooBomb.dto.PostRequest;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,16 @@ public class PostController {
         return ResponseEntity.ok(createdPost);
     }
 
-    // 포스트 조회
+    // 포스트 조회(페이징 기본 - 페이지: 0, 사이즈: 10)
+    @GetMapping("/getPostsPage")
+    public ResponseEntity<Page<Post>> getPosts(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<Post> posts = postService.getPosts(page, size);
+        return ResponseEntity.ok(posts);
+    }
+
 
     // 특정 포스트 조회(id)
     @GetMapping("/{id}")
