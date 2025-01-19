@@ -42,6 +42,17 @@ public class PostController {
         return ResponseEntity.ok(createdPost);
     }
 
+    // 포스트 조회수 증가
+    @GetMapping("/viewCount/{id}")
+    public ResponseEntity<Post> incremnetViewCount(
+        @PathVariable String id
+        ) {
+            Post post = postService.incrementViewCount(id);
+            return ResponseEntity.ok(post);
+    }
+
+    
+
     // 포스트 조회(페이징 기본 - 페이지: 0, 사이즈: 10)
     @GetMapping("/getPostsPage")
     public ResponseEntity<Page<Post>> getPosts(
@@ -63,6 +74,17 @@ public class PostController {
         return ResponseEntity.ok(post);
     }
     
+    // 특정 포스트 조회 (유저 id)
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity<Page<Post>> getPostsByAuthorId(
+        @PathVariable String authorId,
+        @RequestParam int page,
+        @RequestParam int size) {
+        
+        Page<Post> posts = postService.getPostsByAuthorId(authorId, page, size);
+        return ResponseEntity.ok(posts);
+    }
+
     // 포스트 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePost(@PathVariable String id) {

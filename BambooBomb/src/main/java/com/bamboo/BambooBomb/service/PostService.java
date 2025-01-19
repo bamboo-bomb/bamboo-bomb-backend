@@ -21,6 +21,13 @@ public class PostService {
         return postRepository.save(newPost);
     }
 
+    // 포스트 조회수 증가
+    public Post incrementViewCount(String postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+        post.setViewCount(post.getViewCount() + 1);
+        return postRepository.save(post);
+    }
+
     // 포스트 조회(페이징 처리)
     public Page<Post> getPosts(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -30,6 +37,12 @@ public class PostService {
     // 특정 포스트 조회(id)
     public Post findPostById(String id) {
         return postRepository.findById(id).orElse(null);
+    }
+
+    // 포스트들 조회 (작성자)
+    public Page<Post> getPostsByAuthorId(String authorId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return postRepository.findByAuthorId(authorId, pageable);
     }
 
     // 포스트 삭제

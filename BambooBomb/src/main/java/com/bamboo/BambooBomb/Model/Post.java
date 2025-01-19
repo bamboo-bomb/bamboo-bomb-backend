@@ -27,6 +27,8 @@ public class Post {
     private LocalDateTime timestamp;
     private String authorId;
 
+    private int viewCount = 0;
+
     // 감정표현 데이터 (key: 이모티콘 종류, value: 개수)
     private Map<ReactionType, Integer> reactions = new EnumMap<>(ReactionType.class);
 
@@ -97,5 +99,11 @@ public class Post {
     }
     public void setUserReactions(Map<String, ReactionType> userReactions) {
         this.userReactions = userReactions;
+    }
+    public int getViewCount() {
+        return viewCount;
+    }
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
