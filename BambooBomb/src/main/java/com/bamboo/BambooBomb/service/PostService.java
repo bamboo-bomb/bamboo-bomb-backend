@@ -3,6 +3,7 @@ package com.bamboo.BambooBomb.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bamboo.BambooBomb.model.Post;
@@ -30,8 +31,16 @@ public class PostService {
     }
 
     // 포스트 조회(페이징 처리)
-    public Page<Post> getPosts(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<Post> getPosts(String sortBy, int page, int size) {
+        Pageable pageable;
+        if ("views".equals(sortBy)) {
+            pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("viewCount"))); // 조회수 기준 내림차순 정렬
+        } else if ("date".equals(sortBy)) {
+            pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("timestamp"))); // 최신 글 기준 내림차순 정렬
+        } else {
+            pageable = PageRequest.of(page, size); // 기본적으로 페이지네이션만 적용
+        }
+
         return postRepository.findAll(pageable);
     }
 
@@ -42,7 +51,7 @@ public class PostService {
 
     // 포스트들 조회 (작성자)
     public Page<Post> getPostsByAuthorId(String authorId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("timestamp"))); // 최근글 기준 내림차순 정렬
         return postRepository.findByAuthorId(authorId, pageable);
     }
 

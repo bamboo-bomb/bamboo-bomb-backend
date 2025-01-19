@@ -58,9 +58,10 @@ public class PostController {
     @GetMapping("/getPostsPage")
     public ResponseEntity<Page<Post>> getPosts(
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int size
+        @RequestParam(defaultValue = "10") int size,
+        @RequestParam(defaultValue = "date") String sortBy
     ) {
-        Page<Post> posts = postService.getPosts(page, size);
+        Page<Post> posts = postService.getPosts(sortBy, page, size);
         return ResponseEntity.ok(posts);
     }
 
