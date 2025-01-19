@@ -33,12 +33,12 @@ public class Post {
     // 유저별 반응 추적 (key: 유저 ID, value: 누른 이모티콘)
     private Map<String, ReactionType> userReactions = new HashMap<>();
 
-    public Post(String title, String content, String userId) {
+    public Post(String title, String content, String authorId) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
         this.content = content;
         this.timestamp = LocalDateTime.now();
-        this.authorId = userId;
+        this.authorId = authorId;
         initializeReactions();
     }
 

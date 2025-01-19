@@ -17,4 +17,21 @@ public class PostService {
         Post newPost = new Post(title, content, userId);
         return postRepository.save(newPost);
     }
+
+    // 포스트 조회
+    
+
+    // 특정 포스트 조회(id)
+    public Post findPostById(String id) {
+        return postRepository.findById(id).orElse(null);
+    }
+
+    // 포스트 삭제
+    public boolean deletePost(String id) {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
