@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bamboo.BambooBomb.model.Post;
+import com.bamboo.BambooBomb.model.ReactionType;
 import com.bamboo.BambooBomb.repository.PostRepository;
 
 @Service
@@ -52,5 +53,40 @@ public class PostService {
             return true;
         }
         return false;
+    }
+
+    // 이모지 추가
+    public Post addReaction(String postId, String userId, ReactionType reactionType) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
+
+        // 유저가 이미 반응을 한 이모지 -> 반응 변경(선택한 이모지 취소)
+        if (post.getUserReactions().containsKey(userId)) {
+            ReactionType existingReaction = post.getUserReactions().get(userId);
+            post.getReactions().put(existingReaction, post.getReactions().get(existingReaction) - 1);
+        }
+
+        post.getUserReactions().put(userId, reactionType);
+        post.getReactions().put(reactionType, post.getReactions().getOrDefault(reactionType, 0) + 1);
+
+        return postRepository.save(post);
+    }
+
+    // 이모지 삭제
+    public Post removeReaction(String postId, String userId) {
+        Post post = postRepository.findById(postId)
+            .orElseThrow(() -> new RuntimeException("Post not found"));
+
+        // 유저가 반응을 했다면 반응을 삭제
+        if (post.getUserReactions().containsKey(userId)) {
+            ReactionType reactionType = post.getUserReactions().remove(userId);
+            post.getReactions().put(reactionType, post.getReactions().get(reactionType) - 1);
+
+            // 반응이 0이면 해당 반응을 맵에서 삭제
+            if (post.getReactions().get(reactionType) <= 0) {
+                post.getReactions().remove(reactionType);
+            }
+        }
+
+        return postRepository.save(post);
     }
 }

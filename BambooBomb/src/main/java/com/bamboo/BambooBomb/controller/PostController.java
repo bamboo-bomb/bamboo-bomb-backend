@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bamboo.BambooBomb.model.Post;
+import com.bamboo.BambooBomb.model.ReactionType;
 import com.bamboo.BambooBomb.service.PostService;
 import com.bamboo.BambooBomb.dto.PostRequest;
 
@@ -94,5 +95,26 @@ public class PostController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found.");
         }
+    }
+
+    // 이모지 추가
+    @PostMapping("/{postId}/reaction")
+    public ResponseEntity<Post> addReaction(
+        @PathVariable String postId,
+        @RequestParam String userId,
+        @RequestParam ReactionType reactionType) {
+        
+        Post updatedPost = postService.addReaction(postId, userId, reactionType);
+        return ResponseEntity.ok(updatedPost);
+    }
+
+    // 이모지 삭제
+    @DeleteMapping("/{postId}/reaction")
+    public ResponseEntity<Post> removeReaction(
+        @PathVariable String postId,
+        @RequestParam String userId) {
+
+        Post updatedPost = postService.removeReaction(postId, userId);
+        return ResponseEntity.ok(updatedPost);
     }
 }
