@@ -12,9 +12,11 @@ import com.bamboo.BambooBomb.filter.JwtAuthenticationFilter;
 @Configuration
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
     @Bean
@@ -23,9 +25,10 @@ public class SecurityConfig {
         http.csrf().disable()
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth", "auth/**", "/login", "/login/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // 특정 경로 허용
+                .requestMatchers("/auth", "/auth/**", "/login", "/login/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // 특정 경로 허용
                 .anyRequest().authenticated()  // 다른 요청은 인증 필요
             )
+            .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .oauth2Login(Customizer.withDefaults());
 
         return http.build();

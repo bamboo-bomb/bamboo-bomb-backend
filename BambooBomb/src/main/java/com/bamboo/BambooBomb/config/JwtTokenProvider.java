@@ -41,7 +41,6 @@ public class JwtTokenProvider {
 
     // JWT 토큰 검증
     public boolean validateToken(String token) {
-        System.out.println("validate");
         try {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
