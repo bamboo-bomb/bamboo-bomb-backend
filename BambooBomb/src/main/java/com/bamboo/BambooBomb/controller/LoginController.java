@@ -38,6 +38,11 @@ public class LoginController {
     public void login(HttpServletResponse response) throws IOException {
         response.sendRedirect("/oauth2/authorization/naver");  // 네이버 로그인 페이지로 리다이렉트
     }
+    // @GetMapping("/naver-login")
+    // public String login() {
+    //     return "redirect:/oauth2/authorization/naver";
+    // }
+
 
     // 네이버 로그인 후 바로 호출되는 주소
     @GetMapping("/login/callback")

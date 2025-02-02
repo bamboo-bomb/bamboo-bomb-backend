@@ -25,7 +25,7 @@ public class SecurityConfig {
         http.csrf().disable()
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth", "/auth/**", "/login", "/login/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // 특정 경로 허용
+                .requestMatchers("oauth2/**", "naver-login/", "naver-login/**", "/auth", "/auth/**", "/login", "/login/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()  // 특정 경로 허용
                 .anyRequest().authenticated()  // 다른 요청은 인증 필요
             )
             .exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
