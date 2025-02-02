@@ -30,14 +30,14 @@ public class ReactionService {
     }
 
     // 특정 이모티콘 개수 표시 (99+, 999+ 처리)
-    public String getReactionCountDisplay(Post post, ReactionType emoji) {
-        int count = post.getReactions().getOrDefault(emoji, 0);
-        if (count >= 999) {
-            return "999+";
-        } else if (count >= 99) {
-            return "99+";
-        } else {
-            return String.valueOf(count);
-        }
-    }
+    // public String getReactionCountDisplay(Post post, ReactionType emoji) {
+    //     int count = post.getReactions().getOrDefault(emoji, 0);
+    //     if (count >= 999) {
+    //         return "999+";
+    //     } else if (count >= 99) {
+    //         return "99+";
+    //     } else {
+    //         return String.valueOf(count);
+    //     }
+    // }
 }
