@@ -139,4 +139,16 @@ public class TokenService {
 
         return responseMap;
     }
+
+    // // 블랙리스트에 토큰 추가
+    // public void invalidateToken(String token) {
+    //     long expirationTime = System.currentTimeMillis() + 86400000; // 예시: 1일 후 만료
+    //     tokenBlacklist.put(token, expirationTime);
+    // }
+
+    // // 블랙리스트에서 토큰 유효성 확인
+    // public boolean isTokenValid(String token) {
+    //     return !tokenBlacklist.containsKey(token);
+    // }
+
 }

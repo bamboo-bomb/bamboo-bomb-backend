@@ -1,5 +1,6 @@
 package com.bamboo.BambooBomb.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bamboo.BambooBomb.service.TokenService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @RestController
 public class LoginController {
     @Value("${CLIENT_ID}")
@@ -30,6 +33,16 @@ public class LoginController {
     public LoginController(TokenService tokenService) {
         this.tokenService = tokenService;
     }
+
+    @GetMapping("/naver-login")
+    public void login(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/oauth2/authorization/naver");  // 네이버 로그인 페이지로 리다이렉트
+    }
+    // @GetMapping("/naver-login")
+    // public String login() {
+    //     return "redirect:/oauth2/authorization/naver";
+    // }
+
 
     // 네이버 로그인 후 바로 호출되는 주소
     @GetMapping("/login/callback")
