@@ -1,6 +1,8 @@
 package com.bamboo.BambooBomb.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -24,7 +26,8 @@ public class Post {
 
     private String title;
     private String content;
-    private LocalDateTime timestamp;
+    // private LocalDateTime timestamp;
+    private Instant timestamp;
     private String authorId;
 
     private int viewCount = 0;
@@ -39,7 +42,9 @@ public class Post {
         this.id = UUID.randomUUID().toString();
         this.title = title;
         this.content = content;
-        this.timestamp = LocalDateTime.now();
+        // this.timestamp = LocalDateTime.now();
+        this.timestamp = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toInstant();
+        this.expireAt = new Date(System.currentTimeMillis() + 1000 * 60 * 30); 
         this.authorId = authorId;
         initializeReactions();
     }
@@ -70,10 +75,10 @@ public class Post {
     public void setContent(String content) {
         this.content = content;
     }
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public ZonedDateTime getTimestamp() {
+        return timestamp.atZone(ZoneId.of("Asia/Seoul"));
     }
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
     public Date getExpireAt() {
