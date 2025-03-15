@@ -3,9 +3,9 @@ nixPkgs = ['openjdk17']
 
 [phases.build]
 cmds = [
-  'cd BambooBomb',
-  './gradlew build'
+  'find . -type f -name "gradlew" -exec chmod +x {} \;',
+  'find . -type f -name "gradlew" -exec {} build \;'
 ]
 
 [start]
-cmd = 'cd BambooBomb && java -jar build/libs/*.jar'
+cmd = 'find . -type f -name "*.jar" -path "*/build/libs/*" -exec java -jar {} \;'
