@@ -44,7 +44,7 @@ public class Post {
         this.content = content;
         // this.timestamp = LocalDateTime.now();
         this.timestamp = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toInstant();
-        this.expireAt = new Date(System.currentTimeMillis() + 1000 * 60 * 30); 
+        this.expireAt = new Date(System.currentTimeMillis() + 1000 * 60 * 29); 
         this.authorId = authorId;
         initializeReactions();
     }
