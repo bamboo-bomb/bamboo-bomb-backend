@@ -4,7 +4,6 @@ nixPkgs = ['openjdk17']
 [phases.build]
 cmds = [
   'cd BambooBomb',
-  'chmod +x ./gradlew',
   './gradlew build'
 ]
 
