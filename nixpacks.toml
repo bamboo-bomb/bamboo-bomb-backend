@@ -1,0 +1,12 @@
+[phases.setup]
+nixPkgs = ['openjdk17']
+
+[phases.build]
+cmds = [
+  'cd BambooBomb',
+  'chmod +x ./gradlew',
+  './gradlew build'
+]
+
+[start]
+cmd = 'cd BambooBomb && java -jar build/libs/*.jar'
