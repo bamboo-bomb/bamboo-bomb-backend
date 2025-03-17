@@ -1,5 +1,7 @@
-# OpenJDK 21을 베이스 이미지로 사용
 FROM openjdk:21-jdk-slim
+
+ENV JAVA_HOME=/usr/local/openjdk-21
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 # 작업 디렉토리 설정
 WORKDIR /BambooBomb
