@@ -16,17 +16,23 @@ public class OAuth2ClientConfig {
     @Value("${CLIENT_SECRET}")
     private String clientSecret;
 
+    @Value("${URL}")
+    private String baseUrl;
+
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
         return new InMemoryClientRegistrationRepository(naverClientRegistration());
     }
 
     private ClientRegistration naverClientRegistration() {
-        System.out.println("oauth2 client config###################");
+        System.out.println("oauth2 client config###################??");
+        System.out.println("url: " + baseUrl);
         return ClientRegistration.withRegistrationId("naver")
                 .clientId(clientId)
                 .clientSecret(clientSecret)
-                .redirectUri("http://localhost:8080/login/callback")
+                .redirectUri("https://bamboobomb.onrender.com/login/callback")
+                // .redirectUri(baseUrl + "/login/callback")
+                // .redirectUri("https://localhost:8080/login/callback")
                 .authorizationUri("https://nid.naver.com/oauth2.0/authorize")
                 .tokenUri("https://nid.naver.com/oauth2.0/token")
                 .userInfoUri("https://openapi.naver.com/v1/nid/me")
